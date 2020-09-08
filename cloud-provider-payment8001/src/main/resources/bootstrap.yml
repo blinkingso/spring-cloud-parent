@@ -1,0 +1,13 @@
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka7001:7001/eureka/, http://eureka7002:7002/eureka/
+    fetch-registry: true
+    register-with-eureka: true
+  instance:
+    instance-id: payment8001
+    prefer-ip-address: true
+    # 发送心跳的时间间隔(how ofen)
+    lease-renewal-interval-in-seconds: 10
+    # remove指定时间未发送心跳的实例的时间默认90s
+    lease-expiration-duration-in-seconds: 30
