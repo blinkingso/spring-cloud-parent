@@ -40,4 +40,16 @@ class OrderController {
         return restTemplate.getForObject(paymentURL.plus("/payment/find/${id}"),
                 CommonResult<Payment>().javaClass)
     }
+
+    @GetMapping("/v2/payment/find/{id}")
+    fun findPaymentById2(@PathVariable("id") id: Long): CommonResult<Payment>? {
+        val resp = restTemplate.getForEntity(paymentURL.plus("/payment/find/${id}"),
+                CommonResult<Payment>().javaClass)
+
+        return if (resp.statusCode.is2xxSuccessful) {
+            resp.body
+        } else {
+            CommonResult(code = 500, message = "接口请求失败")
+        }
+    }
 }
