@@ -7,7 +7,7 @@ import org.springframework.cloud.netflix.ribbon.RibbonClient
 
 @SpringBootApplication
 @EnableEurekaClient
-@RibbonClient(value = "CLOUD-PROVIDER-PAYMENT", name = "randomPaymentRule")
+//@RibbonClient(value = "CLOUD-PROVIDER-PAYMENT", name = "randomPaymentRule")
 class ConsumerOrderApplication
 
 fun main(args: Array<String>) {
