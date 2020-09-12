@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.cloud.client.discovery.DiscoveryClient
 import org.springframework.web.bind.annotation.*
+import java.util.concurrent.TimeUnit
 
 @RestController
 @RequestMapping("/payment")
@@ -56,5 +57,11 @@ class PaymentController {
             println("instanceId is ${it.instanceId}")
         }
         return ""
+    }
+
+    @GetMapping("/timeout")
+    fun timeout(): String {
+        TimeUnit.SECONDS.sleep(5)
+        return serverPort.toString()
     }
 }

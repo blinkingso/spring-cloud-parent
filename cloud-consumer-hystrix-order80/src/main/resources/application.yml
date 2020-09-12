@@ -1,0 +1,27 @@
+server:
+  port: 80
+
+spring:
+  application:
+    name: consumer-hystrix-order
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: full
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: consumer-hystrix-order80
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://eureka7001:7001/eureka/,http://eureka7002:7002/eureka/
+
+logging:
+  level:
+    com.yz.order.service.OrderPaymentService: debug

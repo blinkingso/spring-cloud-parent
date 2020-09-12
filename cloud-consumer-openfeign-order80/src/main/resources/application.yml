@@ -1,0 +1,27 @@
+server:
+  port: 80
+spring:
+  application:
+    name: cloud-consumer-openfeign-order
+
+eureka:
+  instance:
+    instance-id: consumer-openfeign-order80
+    prefer-ip-address: true
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://eureka7001:7001/eureka/,http://eureka7002:7002/eureka/
+feign:
+  client:
+    config:
+      default:
+        # 超时请求配置时间, ms
+        connectTimeout: 5000
+        readTimeout: 15000
+        loggerLevel: FULL
+
+logging:
+  level:
+    com.yz.service.PaymentFeignService: debug

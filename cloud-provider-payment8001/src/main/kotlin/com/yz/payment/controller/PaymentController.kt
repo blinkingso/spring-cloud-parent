@@ -6,6 +6,7 @@ import com.yz.payment.service.PaymentService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.web.bind.annotation.*
+import java.util.concurrent.TimeUnit
 
 @RestController
 @RequestMapping("/payment")
@@ -32,11 +33,17 @@ class PaymentController {
     @GetMapping("/find")
     fun findAll(): CommonResult<List<Payment>> {
         println("now server is : $serverPort")
-        return CommonResult(data = paymentService.findAll(), message = "now server is ${serverPort}")
+        return CommonResult(data = paymentService.findAll(), message = "now server is $serverPort")
     }
 
     @GetMapping("/find/{id}")
     fun findById(@PathVariable id: Long): CommonResult<Payment> {
         return CommonResult(data = paymentService.findById(id = id))
+    }
+
+    @GetMapping("/timeout")
+    fun timeout(): String {
+        TimeUnit.SECONDS.sleep(5)
+        return serverPort.toString()
     }
 }
