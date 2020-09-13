@@ -4,6 +4,9 @@ spring:
   application:
     name: provider-hystrix-payment
 eureka:
+  instance:
+    instance-id: provider-hystrix-payment8003
+    prefer-ip-address: true
   client:
     fetch-registry: true
     register-with-eureka: true
