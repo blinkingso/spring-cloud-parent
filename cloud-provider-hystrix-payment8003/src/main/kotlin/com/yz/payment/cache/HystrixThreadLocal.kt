@@ -7,7 +7,7 @@ package com.yz.payment.cache
  */
 class HystrixThreadLocal {
     companion object {
-        private val threadLocal = ThreadLocal<String>()
-        fun getThreadLocal(): ThreadLocal<String> = threadLocal
+        private val threadLocal = ThreadLocal<String?>()
+        fun getThreadLocal(): ThreadLocal<String?> = threadLocal
     }
 }

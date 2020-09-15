@@ -1,0 +1,24 @@
+server:
+  port: 9521
+spring:
+  application:
+    name: cloud-zuul9521
+eureka:
+  instance:
+    instance-id: cloud-zuul9521
+    prefer-ip-address: true
+    appname: cloud-zuul
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    enabled: true
+    service-url:
+      defaultZone: http://eureka7001:7001/eureka/, http://eureka7002:7002/eureka/
+    # 默认为5分钟同步一次, 标识客户端多久可以知道eureka-server的变动(实例的新增或减少)
+    eureka-service-url-poll-interval-seconds: 300
+
+zuul:
+  routes:
+    PROVIDER-HYSTRIX-PAYMENT:
+      path: /8003/**
+      serviceId: PROVIDER-HYSTRIX-PAYMENT

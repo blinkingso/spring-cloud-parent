@@ -11,7 +11,7 @@ import java.util.concurrent.Callable
  */
 class HystrixThreadCallable<S>(private val delegate: Callable<S>,
                                private val requestAttributes: RequestAttributes?,
-                               private val params: String
+                               private val params: String?
 ) : Callable<S> {
 
     override fun call(): S {
