@@ -1,0 +1,21 @@
+server:
+  port: 9411
+spring:
+  application:
+    name: zipkin-server9411
+eureka:
+  instance:
+    instance-id: zipkin-server9411
+    prefer-ip-address: true
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://eureka7001:7001/eureka/, http://eureka7002:7002/eureka/
+management:
+  metrics:
+    web:
+      server:
+        request:
+          autotime:
+            enabled: false

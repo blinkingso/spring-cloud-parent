@@ -1,0 +1,23 @@
+server:
+  port: 9100
+
+spring:
+  application:
+    name: cloud-config-server9100
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:/shared
+  profiles:
+    active: native
+eureka:
+  instance:
+    instance-id: config-server9100
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://eureka7001:7001/eureka/, http://eureka7002:7002/eureka/
+

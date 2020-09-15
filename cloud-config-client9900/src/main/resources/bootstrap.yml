@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: cloud-config-client9900
+  cloud:
+    config:
+      fail-fast: true
+      discovery:
+        enabled: true
+        service-id: CLOUD-CONFIG-SERVER9100
+  profiles:
+    active: dev
+eureka:
+  instance:
+    instance-id: cloud-config-client9900
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://eureka7001:7001/eureka/, http://eureka7002:7002/eureka/
