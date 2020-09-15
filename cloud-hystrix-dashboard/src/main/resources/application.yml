@@ -1,21 +1,15 @@
 server:
-  port: 8003
+  port: 9000
 spring:
   application:
-    name: provider-hystrix-payment
+    name: cloud-hystrix-dashboard
+
 eureka:
   instance:
-    instance-id: provider-hystrix-payment8003
+    instance-id: cloud-hsytrix-dashboard9000
     prefer-ip-address: true
   client:
     fetch-registry: true
     register-with-eureka: true
     service-url:
-      #      defaultZone: http://eureka7001:7001/eureka/
       defaultZone: http://eureka7001:7001/eureka/,http://eureka7002:7002/eureka/
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: hystrix.stream

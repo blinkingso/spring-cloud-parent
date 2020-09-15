@@ -27,4 +27,8 @@ eureka:
 logging:
   level:
     com.yz.order.service.OrderPaymentService: debug
-
+management:
+  endpoints:
+    web:
+      exposure:
+        include: hystrix.stream
