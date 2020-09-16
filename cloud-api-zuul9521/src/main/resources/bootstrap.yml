@@ -22,3 +22,35 @@ zuul:
     PROVIDER-HYSTRIX-PAYMENT:
       path: /8003/**
       serviceId: PROVIDER-HYSTRIX-PAYMENT
+      sensitiveHeaders: Cookie,Set-Cookie,Authorization,Session
+    # forward本地跳转
+    client-a:
+      path: /client/**
+      url: forward:/client
+  prefix: /api
+  # 忽略的服务, 防止服务侵入
+  ignored-services: client-b
+  # 忽略的接口, 屏蔽接口
+  ignored-patterns: /**/ok/**
+  # 解决重定向问题
+  add-host-header: true
+  # 敏感头信息, 用于切断和下层服务之间的交互,防止信息外泄
+  sensitive-headers: Cookie,Set-Cookie,Authorization
+  # 重试机制
+#  retryable: true
+#
+## retry 策略, 为了保证部分接口的幂等性, 因此该功能要慎用
+#ribbon:
+#  MaxAutoRetries: 1 # 同一个服务重试的次数
+#  MaxAutoRetriesNextServer: 1 #切换相同服务数量
+
+
+# 使用ribbon的负载均衡策略
+#ribbon:
+#  eureka:
+#    enabled: false
+#PROVIDER-HYSTRIX-PAYMENT:
+#  ribbon:
+#    NIWSServerListClassName: com.netflix.loadbalancer.ConfigurationBasedServerList
+#    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+#    listOfServers: localhost:8003
