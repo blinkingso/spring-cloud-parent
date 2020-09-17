@@ -1,0 +1,17 @@
+server:
+  port: 7777
+  servlet:
+    context-path: /uaa
+spring:
+  application:
+    name: oauth2-server
+
+eureka:
+  instance:
+    instance-id: oauth2-server
+    prefer-ip-address: true
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://eureka7001:7002/eureka/, http://eureka7002:7002/eureka/

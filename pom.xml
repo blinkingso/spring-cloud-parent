@@ -22,6 +22,7 @@
         <module>cloud-config-server9100</module>
         <module>cloud-config-client9900</module>
         <module>cloud-zipkin-server9411</module>
+        <module>cloud-oauth2-server</module>
     </modules>
     <packaging>pom</packaging>
 
