@@ -63,9 +63,9 @@ security:
       user-authorization-uri: http://localhost:7777/uaa/oauth/authorize # 授权端点
       client-id: cloud-zuul9521 #OAuth2客户端ID
       client-secret: jwtoauth2 #OAuth2客户端秘钥
-      pre-established-redirect-uri: http://localhost:9521/client?a=1&b=2
+#      pre-established-redirect-uri: http://localhost:9521/client?a=1&b=2
       scope: read,write
-      use-current-uri: false
+      use-current-uri: true
     resource:
       jwt:
         key-value: springcloud123123 #使用对称加密方式, 默认算法为HmacSHA256

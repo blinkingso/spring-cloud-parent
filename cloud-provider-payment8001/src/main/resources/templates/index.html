@@ -1,0 +1,11 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<p>localhost:8001下的index页面</p>
+
+<code th:text="${obj.getOrDefault('requestTime', '0')}" style="color: darkred">time start:</code>
+<br>
+<code th:text="${obj.getOrDefault('endTime', '0')}" style="color: darkred">time end: </code>
+</body>
+</html>

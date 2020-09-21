@@ -12,7 +12,19 @@ spring:
     druid:
       validation-query: select 1 from dual
       validation-query-timeout: 10000
-
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
+  thymeleaf:
+    suffix: .html
+    prefix: classpath:/templates/
+    cache: false
+    mode: HTML
+    servlet:
+      content-type: text/html
+  mvc:
+    static-path-pattern: /static/**
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml

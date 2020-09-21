@@ -1,0 +1,35 @@
+server:
+  port: 9527
+
+eureka:
+  instance:
+    instance-id: cloud-gateway-gateway9527
+    prefer-ip-address: true
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://eureka7001:7001/eureka/, http://euereka7002:7002/eureka/
+spring:
+  application:
+    name: cloud-gateway-gateway9527
+  cloud:
+    gateway:
+      routes:
+        - id: payment_8001
+          uri: http://localhost:8001
+          predicates:
+            - Path=/payment/**
+
+logging:
+  level:
+    org.springframework.cloud.gateway: trace
+    org.springframework.http.server.reactive: debug
+    org.springframework.web.reactive: debug
+    reactor.ipc.netty: debug
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
