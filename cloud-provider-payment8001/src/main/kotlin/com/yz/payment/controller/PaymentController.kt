@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.web.bind.annotation.*
 import java.util.concurrent.TimeUnit
+import javax.servlet.http.HttpServletRequest
 
 @RestController
 @RequestMapping("/payment")
@@ -33,6 +34,18 @@ class PaymentController {
     @GetMapping("/find")
     fun findAll(): CommonResult<List<Payment>> {
         println("now server is : $serverPort")
+        return CommonResult(data = paymentService.findAll(), message = "now server is $serverPort")
+    }
+
+    @GetMapping("/find2")
+    fun findAll2(req: HttpServletRequest): CommonResult<List<Payment>> {
+        println("now server is : $serverPort")
+        req.headerNames.iterator().forEach {
+            println("header ---- > $it")
+        }
+        req.parameterMap.forEach {
+            println("it === > (${it.key}, ${it.value[0]})")
+        }
         return CommonResult(data = paymentService.findAll(), message = "now server is $serverPort")
     }
 

@@ -20,6 +20,41 @@ spring:
           uri: http://localhost:8001
           predicates:
             - Path=/payment/**
+            - Query=foo, 8001
+        - id: payment_8002
+          uri: http://localhost:8002
+          predicates:
+            - RemoteAddr=127.0.0.1
+            - Query=foo, 8002
+          filters:
+            - AddRequestHeader=goo,goo
+            - AddRequestParameter=foo2,80022
+        # 实现基于serviceId的路由转发功能
+        - id: CONSUMER-OPENFEIGN-ORDER80
+          uri: lb://cloud-consumer-openfeign-order
+          order: 0
+          predicates:
+            - Path=/order/**
+          filters:
+            - RewritePath=/cloud-consumer-openfeign-order/(?<segment>.*),/$\{segment}
+        # 权重
+        - id: p1_v1
+          uri: http://localhost:8001/v1
+          predicates:
+            - Path=/test
+            - Weight=p1,95
+        - id: p1_v2
+          uri: http://localhost:8001/v2
+          predicates:
+            - Path=/test
+            - Weight=p1,5
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+    loadbalancer:
+      ribbon:
+        enabled: false
 
 logging:
   level:
