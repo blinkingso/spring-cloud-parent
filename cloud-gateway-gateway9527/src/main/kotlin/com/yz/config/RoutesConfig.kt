@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import java.net.URLEncoder
+import java.time.Duration
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -135,6 +136,22 @@ class RoutesConfig {
                 it.path("/test/**").filters { f ->
                     f.filter(RequestTimeFilter())
                 }.uri("lb://cloud-consumer-openfeign-order")
+            }
+
+            // 限流接口
+            this.route("rate_limit_route") {
+                it.path("/limit/test").filters { f ->
+                    f.filter(BucketRateLimiterFilter(10, 1, Duration.ofSeconds(1)))
+//                    f.hystrix { conf ->
+//                        val commandKey = "fallbackCmd"
+//                        conf.name = commandKey
+//                        conf.setFallbackUri("forward:/fallback")
+//                        val setter = HystrixObservableCommand.Setter.withGroupKey(HystrixCommandGroupKey.Factory.asKey("default"))
+//                        setter.andCommandKey(HystrixCommandKey.Factory.asKey(commandKey))
+//                        setter.andCommandPropertiesDefaults(HystrixCommandProperties.Setter().withExecutionTimeoutInMilliseconds(4000))
+//                        conf.setSetter(setter)
+//                    }
+                }.uri("lb://CLOUD-PROVIDER-PAYMENT")
             }
 
             this.build()
