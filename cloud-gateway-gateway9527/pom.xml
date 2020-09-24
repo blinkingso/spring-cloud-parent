@@ -41,6 +41,17 @@
             <artifactId>bucket4j-core</artifactId>
             <version>4.10.0</version>
         </dependency>
+        <!-- 基于redis的限流策略 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis-reactive</artifactId>
+        </dependency>
+
+        <!--webflux-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

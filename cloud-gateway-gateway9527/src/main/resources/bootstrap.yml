@@ -48,6 +48,20 @@ spring:
           predicates:
             - Path=/test/v2
             - Weight=p1,5
+        - id: payment_redis_route
+          uri: lb://CLOUD-PROVIDER-PAYMENT
+          order: 0
+          predicates:
+            - Path=/limit/redis
+          filters:
+            - name: RequestRateLimiter
+              args:
+                # 使用SpEL按名称引用Bean
+                key-resolver: "#{@remoteAddrKeyResolver}"
+                # 允许用户每秒处理多少个请求
+                redis-rate-limiter.replenishRate: 1
+                # 令牌桶的容量, 允许1s内完成的最大请求数
+                redis-rate-limiter.burstCapcity: 5
       discovery:
         locator:
           enabled: true
@@ -55,6 +69,10 @@ spring:
     loadbalancer:
       ribbon:
         enabled: false
+  redis:
+    host: 192.168.1.135
+    port: 6379
+    password: foobared
 
 logging:
   level:
@@ -68,3 +86,5 @@ management:
     web:
       exposure:
         include: '*'
+
+

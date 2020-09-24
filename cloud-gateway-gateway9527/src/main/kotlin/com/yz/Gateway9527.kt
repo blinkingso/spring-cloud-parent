@@ -1,9 +1,11 @@
 package com.yz
 
+import com.yz.filter.RemoteAddrKeyResolver
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient
 import org.springframework.cloud.netflix.hystrix.EnableHystrix
+import org.springframework.context.annotation.Bean
 
 /**
  * spring cloud gateway
@@ -14,7 +16,11 @@ import org.springframework.cloud.netflix.hystrix.EnableHystrix
 @SpringBootApplication
 @EnableEurekaClient
 @EnableHystrix
-class Gateway9527
+class Gateway9527 {
+
+    @Bean(name = [RemoteAddrKeyResolver.BEAN_NAME])
+    fun remoteAddrKeyResolver() = RemoteAddrKeyResolver()
+}
 
 fun main() {
     runApplication<Gateway9527>()
