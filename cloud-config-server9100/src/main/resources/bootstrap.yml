@@ -4,13 +4,31 @@ server:
 spring:
   application:
     name: cloud-config-server9100
+#  cloud:
+#    config:
+#      server:
+#        native:
+#          search-locations: classpath:/shared
+#  profiles:
+#    active: native
+# jdbc配置方式
+  profiles:
+    active: jdbc
   cloud:
     config:
       server:
-        native:
-          search-locations: classpath:/shared
-  profiles:
-    active: native
+        jdbc:
+          sql: SELECT `KEY`, `VALUE` FROM PROPERTIES WHERE APPLICATION = ? AND PROFILE = ? AND LABLE = ?
+      label: master
+      allow-override: true
+      override-none: true # 外部配置的优先级更低, 而且不能覆盖任何存在的属性源. 默认为false
+      override-system-properties: false # 用来标识外部配置是否能够覆盖系统属性, 默认为true
+  datasource:
+    url: jdbc:mysql://localhost:3306/yz?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    username: root
+    password: 123456
+    driver-class-name: org.gjt.mm.mysql.Driver
+
 eureka:
   instance:
     instance-id: config-server9100

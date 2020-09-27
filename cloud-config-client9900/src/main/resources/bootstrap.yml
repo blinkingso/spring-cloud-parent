@@ -1,12 +1,17 @@
+server:
+  port: 9900
 spring:
   application:
     name: cloud-config-client9900
   cloud:
     config:
-      fail-fast: true
+      fail-fast: false
       discovery:
-        enabled: true
+        enabled: false
         service-id: CLOUD-CONFIG-SERVER9100
+      name: config-client
+      refresh-interval: 60 # 60s自动刷新一次配置
+      fallback-location: /bghome/bigdata/settings # cache location
   profiles:
     active: dev
 eureka:

@@ -11,3 +11,14 @@ eureka:
     lease-renewal-interval-in-seconds: 10
     # remove指定时间未发送心跳的实例的时间默认90s
     lease-expiration-duration-in-seconds: 30
+spring:
+  cloud:
+    config:
+      name: provider
+      discovery:
+        service-id: cloud-config-server
+        enabled: true
+      label: master
+      profile: ${spring.profiles.active}
+  profiles:
+    active: dev

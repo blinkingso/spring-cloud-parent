@@ -25,7 +25,17 @@ spring:
       content-type: text/html
   mvc:
     static-path-pattern: /static/**
+  profiles:
+    active: dev
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.yz.commons.entities
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always

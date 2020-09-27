@@ -62,6 +62,11 @@ spring:
                 redis-rate-limiter.replenishRate: 1
                 # 令牌桶的容量, 允许1s内完成的最大请求数
                 redis-rate-limiter.burstCapcity: 5
+        - id: provider_route
+          uri: lb://CLOUD-PROVIDER-PAYMENT
+          order: 123
+          predicates:
+            - Path=/**
       discovery:
         locator:
           enabled: true
