@@ -7,13 +7,15 @@ spring:
     config:
       fail-fast: false
       discovery:
-        enabled: false
+        enabled: true
         service-id: CLOUD-CONFIG-SERVER9100
       name: config-client
       refresh-interval: 60 # 60s自动刷新一次配置
       fallback-location: /bghome/bigdata/settings # cache location
   profiles:
     active: dev
+  main:
+    allow-bean-definition-overriding: true
 eureka:
   instance:
     instance-id: cloud-config-client9900

@@ -1,2 +1,2 @@
 org.springframework.cloud.bootstrap.BootstrapConfiguration=\
-  com.yz.config.fallback.ConfigServerBootstrap
+  com.yz.ConfigServerBootstrap
