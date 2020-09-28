@@ -12,6 +12,9 @@ spring:
       name: config-client
       refresh-interval: 60 # 60s自动刷新一次配置
       fallback-location: /bghome/bigdata/settings # cache location
+      local:
+        enabled: true
+        fallback-location: /bghome/bigdata/settings
   profiles:
     active: dev
   main:
