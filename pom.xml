@@ -28,6 +28,7 @@
         <module>cloud-config-server9001</module>
         <module>cloud-clients-cache-autoconfigure</module>
         <module>cloud-clients-local-autoconfigure</module>
+        <module>cloud-stream-provider8801</module>
     </modules>
     <packaging>pom</packaging>
 

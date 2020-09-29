@@ -1,0 +1,40 @@
+server:
+  port: 8801
+spring:
+  application:
+    name: cloud-stream-provider
+  profiles:
+    active: dev
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+  cloud:
+    stream:
+      bindings:
+        output:
+          destination: yz
+          content-type: application/json
+          binder: rabbit
+          group: group_a
+        input:
+          destination: yz
+          content-type: application/json
+          binder: rabbit
+          group: group_a
+        input2:
+          destination: yz
+          content-type: application/json
+          binder: rabbit
+          group: group_c
+
+eureka:
+  instance:
+    instance-id: cloud-stream-provider8801
+    prefer-ip-address: true
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://eureka7001:7001/eureka/, http://eureka7002:7002/eureka/

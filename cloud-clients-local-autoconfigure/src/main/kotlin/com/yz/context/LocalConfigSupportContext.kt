@@ -42,7 +42,11 @@ class LocalConfigSupportContext : ApplicationContextInitializer<ConfigurableAppl
     private lateinit var localConfigProperties: LocalConfigProperties
 
     override fun initialize(applicationContext: ConfigurableApplicationContext) {
-        if (hasCloudConfigLocator(this.propertySourceLocators)) {
+        applicationContext.beanDefinitionNames.forEach {
+            println("Bean====> $it")
+        }
+
+        if (!hasCloudConfigLocator(this.propertySourceLocators)) {
             logger.info("未启用Config Server管理配置")
         }
 
