@@ -20,7 +20,7 @@ open class FallbackAbleConfigServicePropertySourceLocator(configClientProperties
     @Autowired(required = false)
     private var textEncrypt: TextEncryptor? = null
 
-    override fun locate(environment: Environment?): org.springframework.core.env.PropertySource<*> {
+    override fun locate(environment: Environment?): org.springframework.core.env.PropertySource<*>? {
         val propertySource = super.locate(environment)
         if (fallbackEnabled) {
             if (propertySource != null) {
@@ -33,12 +33,12 @@ open class FallbackAbleConfigServicePropertySourceLocator(configClientProperties
     // 将环境变量保存到本地服务器上
     private fun storeLocally(propertySource: org.springframework.core.env.PropertySource<*>) {
         val source = propertySource as CompositePropertySource
-        val text = source.propertySources.map {
-            var value = it.source
+        val text = source.propertyNames.map {
+            var value = source.getProperty(it)
             if (null != textEncrypt) {
                 value = "{cipher}${textEncrypt!!.encrypt(value.toString())}"
             }
-            "${it.name}=${value}"
+            "${it}=${value}"
         }.toList().joinToString("\n")
 
         // 把文本保存到文件中
