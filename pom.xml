@@ -27,6 +27,7 @@
         <module>cloud-gateway-gateway9527</module>
         <module>cloud-config-server9001</module>
         <module>cloud-clients-cache-autoconfigure</module>
+        <module>boot-samples</module>
     </modules>
     <packaging>pom</packaging>
 
