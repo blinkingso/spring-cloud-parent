@@ -28,6 +28,8 @@ class Oauth2Configure : ResourceServerConfigurerAdapter() {
                     .hasAuthority("message.read")
                     .antMatchers(HttpMethod.GET, "/test/write")
                     .hasAuthority("message.write")
+                    .anyRequest()
+                    .permitAll()
         }
     }
 

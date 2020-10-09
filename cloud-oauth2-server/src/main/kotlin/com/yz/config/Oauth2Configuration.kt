@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer
@@ -33,6 +34,9 @@ class Oauth2Configuration : AuthorizationServerConfigurerAdapter() {
     @Autowired
     private lateinit var clientDetailsService: ClientDetailsService
 
+    @Autowired
+    private lateinit var passwordEncoder: PasswordEncoder
+
     @Bean
     protected fun jwtTokenConverter(): JwtAccessTokenConverter {
         val converter = JwtAccessTokenConverter()
@@ -51,12 +55,12 @@ class Oauth2Configuration : AuthorizationServerConfigurerAdapter() {
     override fun configure(clients: ClientDetailsServiceConfigurer) {
         clients.inMemory()
                 .withClient("cloud-zuul9521")
-                .secret("jwtoauth2")
-                .scopes("read", "write").autoApprove(true)
+                .secret(passwordEncoder.encode("jwtoauth2"))
+                .scopes("read", "write", "delete").autoApprove(true)
                 .authorities("GUEST", "ADMIN")
                 .resourceIds("messages-resource")
                 .authorizedGrantTypes("implicit", "refresh_token", "password", "authorization_code")
-                .redirectUris("http://localhost:9521/authorized?a=1&b=2")
+                .redirectUris("http://localhost:9521/client?a=1&b=2")
     }
 
     override fun configure(endpoints: AuthorizationServerEndpointsConfigurer) {

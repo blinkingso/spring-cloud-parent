@@ -25,7 +25,7 @@ import java.time.format.DateTimeFormatter
 @Configuration
 class RoutesConfig {
 
-    @Bean
+//    @Bean
     fun customRouteLocator(builder: RouteLocatorBuilder): RouteLocator {
         return with(builder.routes()) {
             // basic proxy
