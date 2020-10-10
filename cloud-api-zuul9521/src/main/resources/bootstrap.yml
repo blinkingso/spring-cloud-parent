@@ -68,7 +68,8 @@ security:
 #      pre-established-redirect-uri: http://localhost:9521/client?a=1&b=2
       scope: read,write
       use-current-uri: true
-#      registered-redirect-uri: http://localhost:9521/client?a=1&b=2
+      authentication-scheme: form
+    #      registered-redirect-uri: http://localhost:9521/client?a=1&b=2
     resource:
       jwt:
         key-value: springcloud123123 #使用对称加密方式, 默认算法为HmacSHA256
