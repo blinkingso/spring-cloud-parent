@@ -15,7 +15,6 @@ public class OAuth2ResourceServer extends ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        // 请求的每个接口都需要被认证
         http.authorizeRequests().anyRequest().authenticated()
                 .and()
                 .requestMatchers().antMatchers("/api/**");

@@ -1,23 +1,15 @@
 package com.yz.oauth2.security;
 
+import com.yz.oauth2.PrintIOCBeansAware;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.BeanIds;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.config.annotation.builders.InMemoryClientDetailsServiceBuilder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
-import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
-import org.springframework.security.oauth2.provider.ClientDetailsService;
-import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationManager;
-import org.springframework.security.oauth2.provider.client.InMemoryClientDetailsService;
-import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
+
+import java.util.Arrays;
 
 /**
  * 基于内存缓存模式的security方式
@@ -30,10 +22,10 @@ import org.springframework.security.oauth2.provider.token.ResourceServerTokenSer
 @Slf4j
 public class Oauth2AuthorizationServerInMemory extends AuthorizationServerConfigurerAdapter {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
     private final PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private PrintIOCBeansAware printIOCBeansAware;
 
     public Oauth2AuthorizationServerInMemory(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
@@ -56,12 +48,14 @@ public class Oauth2AuthorizationServerInMemory extends AuthorizationServerConfig
                 .accessTokenValiditySeconds(120)
                 // 权限作用域, 比如读写删除等或者读取联系人等
                 .scopes("read", "write", "contacts");
-    }
 
 
-    // authorizedGrantTypes: password 授权方式需要注入AuthenticationManager
-    @Override
-    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints.authenticationManager(authenticationManager);
+        Arrays.stream(this.printIOCBeansAware.getApplicationContext().getBeanDefinitionNames()).forEach(s -> {
+            log.info("现在容器中的bean为: " + s + "====>" + this.printIOCBeansAware.getApplicationContext().getBean(s));
+
+            if ("springSecurityFilterChain".equals(s)) {
+                log.info("Spring Security 安全控制的Filter为: " + this.printIOCBeansAware.getApplicationContext().getBean(s).getClass());
+            }
+        });
     }
 }

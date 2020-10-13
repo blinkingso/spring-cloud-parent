@@ -1,9 +1,9 @@
 server:
   port: 8080
 
-spring:
-  security:
-    user:
-      name: admin
-      password: '$2a$10$q7ViJmog4w6M6CWtKq30neqejwoKwm0gsFHczGUWMEbzdZm0Bzfd2'
-      roles: GUEST,ADMIN
+#spring:
+#  security:
+#    user:
+#      name: admin
+#      password: '$2a$10$q7ViJmog4w6M6CWtKq30neqejwoKwm0gsFHczGUWMEbzdZm0Bzfd2'
+#      roles: GUEST,ADMIN
