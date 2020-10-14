@@ -1,8 +1,10 @@
 package com.yz.oauth2.security;
 
+import com.yz.oauth2.security.filter.YzOriginAuthenticationFilter;
+import com.yz.oauth2.security.provider.YzAuthenticationProvider;
+import com.yz.oauth2.security.provider.YzRemoteOriginAuthenticationProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -10,8 +12,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 /**
  * 原理解析:
@@ -33,21 +35,25 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Bean
-    @Primary
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    public WebSecurityConfiguration(UserDetailsService userDetailsService,
+                                    PasswordEncoder passwordEncoder,
+                                    YzAuthenticationProvider yzAuthenticationProvider,
+                                    YzRemoteOriginAuthenticationProvider yzRemoteOriginAuthenticationProvider) {
+        this.userDetailsService = userDetailsService;
+        this.passwordEncoder = passwordEncoder;
+        this.yzAuthenticationProvider = yzAuthenticationProvider;
+        this.yzRemoteOriginAuthenticationProvider = yzRemoteOriginAuthenticationProvider;
     }
 
-    @Bean
-    @Primary
-    public InMemoryUserDetailsServices userDetailsServices() {
-        return new InMemoryUserDetailsServices(passwordEncoder());
-    }
+    private final UserDetailsService userDetailsService;
+    private final PasswordEncoder passwordEncoder;
+    private final YzRemoteOriginAuthenticationProvider yzRemoteOriginAuthenticationProvider;
+    private final YzAuthenticationProvider yzAuthenticationProvider;
 
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.addFilterAt(new YzOriginAuthenticationFilter(authenticationManager()), BasicAuthenticationFilter.class);
         http
                 .authorizeRequests()
                 .anyRequest().authenticated()
@@ -58,17 +64,19 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        super.configure(auth);
+        // provider 添加到AuthenticationManager中
+        auth.authenticationProvider(yzAuthenticationProvider);
+        auth.authenticationProvider(yzRemoteOriginAuthenticationProvider);
     }
 
     @Override
     protected UserDetailsService userDetailsService() {
-        return userDetailsServices();
+        return userDetailsService;
     }
 
     @Override
     public UserDetailsService userDetailsServiceBean() throws Exception {
-        return userDetailsServices();
+        return userDetailsService;
     }
 
     @Bean
