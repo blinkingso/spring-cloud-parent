@@ -30,6 +30,7 @@
         <module>boot-samples</module>
         <module>cloud-clients-local-autoconfigure</module>
         <module>cloud-stream-provider8801</module>
+        <module>boot-spring-security-multiproviders</module>
     </modules>
     <packaging>pom</packaging>
 
