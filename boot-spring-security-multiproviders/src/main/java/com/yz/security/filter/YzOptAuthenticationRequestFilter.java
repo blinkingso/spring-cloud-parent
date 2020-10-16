@@ -1,29 +1,24 @@
 package com.yz.security.filter;
 
-import com.yz.config.ProjectConfig;
-import com.yz.config.WebSecurityConfig;
 import com.yz.dao.OtpRepository;
 import com.yz.pojo.Otp;
 import com.yz.pojo.authentication.OtpAuthentication;
 import com.yz.pojo.authentication.UsernamePasswordAuthentication;
+import com.yz.security.cache.TokenCache;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Import;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import javax.servlet.*;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Random;
-import java.util.UUID;
 
 /**
  * 自定义过滤器
@@ -34,16 +29,16 @@ import java.util.UUID;
  * @date 2020-10-15
  */
 @Slf4j
-@Component
-@Import({ProjectConfig.class, WebSecurityConfig.class})
 public class YzOptAuthenticationRequestFilter extends OncePerRequestFilter {
 
     private final AuthenticationManager authenticationManager;
     private final OtpRepository otpRepository;
+    private final TokenCache tokenCache;
 
-    public YzOptAuthenticationRequestFilter(AuthenticationManager authenticationManager, OtpRepository otpRepository) {
+    public YzOptAuthenticationRequestFilter(AuthenticationManager authenticationManager, OtpRepository otpRepository, TokenCache tokenCache) {
         this.authenticationManager = authenticationManager;
         this.otpRepository = otpRepository;
+        this.tokenCache = tokenCache;
     }
 
     @Override
@@ -78,14 +73,12 @@ public class YzOptAuthenticationRequestFilter extends OncePerRequestFilter {
             // 一次性密码模式
             authentication = new OtpAuthentication(username, password);
             authentication = authenticationManager.authenticate(authentication);
-            response.setHeader("Authorization", UUID.randomUUID().toString().replaceAll("-", ""));
+            final String token = TokenCache.createToken();
+            response.setHeader(TokenCache.HEADER_AUTHORIZATION, token);
+            tokenCache.put(token);
         }
 
-        if (authentication.isAuthenticated()) {
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            chain.doFilter(request, response);
-        } else {
-            throw new AuthenticationServiceException("认证失败");
-        }
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        chain.doFilter(request, response);
     }
 }
