@@ -21,7 +21,8 @@ public class YzUsernamePasswordAuthenticationProvider implements AuthenticationP
     private final UserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
 
-    public YzUsernamePasswordAuthenticationProvider(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+    public YzUsernamePasswordAuthenticationProvider(UserDetailsService userDetailsService,
+                                                    PasswordEncoder passwordEncoder) {
         this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
     }
