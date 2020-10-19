@@ -62,6 +62,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 BasicAuthenticationFilter.class);
         http.addFilterAt(new YzTokenAuthenticationFilter(this.authenticationManagerBean()), BasicAuthenticationFilter.class);
         super.configure(http);
+
+        // HttpSession
+        http.sessionManagement().invalidSessionUrl("/invalidSession.htm");
+        // sessionId保存在服务器端, 请求时通过JSESSIONID
+        http.logout().deleteCookies("JSESSIONID");
     }
 
     @Override

@@ -33,6 +33,10 @@ public class YzTokenAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = request.getHeader(TokenCache.HEADER_AUTHORIZATION);
+        if (StringUtils.isEmpty(token)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
         // 初始化TokenAuthentication并保存到cache中
         try {
             TokenAuthentication tokenAuthentication = new TokenAuthentication(token, null, null);
@@ -59,7 +63,6 @@ public class YzTokenAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String token = request.getHeader(TokenCache.HEADER_AUTHORIZATION);
-        String otp = request.getHeader("otp");
-        return !StringUtils.isEmpty(otp) || StringUtils.isEmpty(token);
+        return StringUtils.isEmpty(token) || token.startsWith("Basic");
     }
 }

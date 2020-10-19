@@ -62,8 +62,8 @@ public class YzOptAuthenticationRequestFilter extends OncePerRequestFilter {
         String otp = request.getHeader("otp");
         Authentication authentication;
         if (!StringUtils.isEmpty(otp)) {
-            // 密码模式
-            authentication = new UsernamePasswordAuthentication(username, password);
+            // ONE TIME PASSWORD
+            authentication = new OtpAuthentication(username, otp);
             String code = String.valueOf(new Random().nextInt(9999) + 1000);
             Otp ot = new Otp();
             ot.setUsername(username);
@@ -75,16 +75,20 @@ public class YzOptAuthenticationRequestFilter extends OncePerRequestFilter {
                 log.error("sql 执行失败: ", e);
                 throw new AuthenticationServiceException("otp保存失败");
             }
-            authentication = authenticationManager.authenticate(authentication);
         } else {
-            // 一次性密码模式
-            authentication = new OtpAuthentication(username, password);
-            authentication = authenticationManager.authenticate(authentication);
+            // 账号密码模式
+            authentication = new UsernamePasswordAuthentication(username, password);
+        }
+
+        authentication = authenticationManager.authenticate(authentication);
+        if (authentication.isAuthenticated()) {
+            // 认证通过后保存token
             final String token = TokenCache.createToken();
             response.setHeader(TokenCache.HEADER_AUTHORIZATION, token);
             tokenCache.put(token);
         }
 
+        // 保存认证结果到SecurityContext中
         SecurityContextHolder.getContext().setAuthentication(authentication);
         chain.doFilter(request, response);
     }
