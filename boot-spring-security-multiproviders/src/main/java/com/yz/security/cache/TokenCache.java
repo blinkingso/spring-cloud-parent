@@ -1,5 +1,6 @@
 package com.yz.security.cache;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
@@ -18,7 +19,7 @@ public class TokenCache {
     /**
      * cache 的token的header名称
      */
-    public static final String HEADER_AUTHORIZATION = "T-AUTHORIZATION";
+    public static final String HEADER_AUTHORIZATION = HttpHeaders.AUTHORIZATION;
 
     private final Set<String> tokens = Collections.synchronizedSet(new HashSet<>());
 

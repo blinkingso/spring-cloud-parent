@@ -32,10 +32,9 @@ public class YzOtpAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();
-        String inputOtp = (String) authentication.getCredentials();
         Optional<List<Otp>> otp = otpRepository.findAllByUsername(username);
         if (otp.isPresent() && !CollectionUtils.isEmpty(otp.get())) {
-            return new OtpAuthentication(username, inputOtp);
+            return new OtpAuthentication(username, otp.get().stream().findFirst().get().getOtp());
         }
 
         throw new BadCredentialsException("OTP验证失败");

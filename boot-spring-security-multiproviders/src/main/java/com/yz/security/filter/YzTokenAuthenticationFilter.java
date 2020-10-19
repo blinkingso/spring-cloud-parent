@@ -3,7 +3,6 @@ package com.yz.security.filter;
 import com.yz.pojo.authentication.TokenAuthentication;
 import com.yz.security.cache.TokenCache;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
@@ -34,27 +33,29 @@ public class YzTokenAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = request.getHeader(TokenCache.HEADER_AUTHORIZATION);
-        if (StringUtils.isEmpty(token)) {
-            log.info("未检测到token");
-        }
-
         // 初始化TokenAuthentication并保存到cache中
         try {
             TokenAuthentication tokenAuthentication = new TokenAuthentication(token, null, null);
             Authentication authentication = authenticationManager.authenticate(tokenAuthentication);
             SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            filterChain.doFilter(request, response);
         } catch (AuthenticationException e) {
             logger.info("认证失败");
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             response.setContentType(MediaType.TEXT_HTML_VALUE);
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write("token认证不通过");
-            return;
         }
-
-        filterChain.doFilter(request, response);
     }
 
+    /**
+     * token为空或者otp认证时不需要执行this filter的logic
+     *
+     * @param request httpRequest
+     * @return 是否不需要进行过滤
+     * @throws ServletException servlet exception
+     */
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String token = request.getHeader(TokenCache.HEADER_AUTHORIZATION);

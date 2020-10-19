@@ -41,6 +41,13 @@ public class YzOptAuthenticationRequestFilter extends OncePerRequestFilter {
         this.tokenCache = tokenCache;
     }
 
+    /**
+     * 过滤除/login的所有request
+     *
+     * @param request 请求
+     * @return 是否需要过滤
+     * @throws ServletException 异常
+     */
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         return request.getServletPath().equals("/login");
