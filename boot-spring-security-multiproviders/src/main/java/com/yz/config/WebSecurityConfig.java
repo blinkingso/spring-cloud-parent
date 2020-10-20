@@ -1,8 +1,9 @@
 package com.yz.config;
 
+import com.yz.csrf.YzCsrfTokenRepository;
 import com.yz.dao.OtpRepository;
 import com.yz.security.cache.TokenCache;
-import com.yz.security.filter.YzOptAuthenticationRequestFilter;
+import com.yz.security.filter.YzOtpAndUsernamePasswordAuthenticationFilter;
 import com.yz.security.filter.YzTokenAuthenticationFilter;
 import com.yz.security.providers.YzOtpAuthenticationProvider;
 import com.yz.security.providers.YzTokenAuthenticationProvider;
@@ -21,6 +22,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 /**
@@ -57,16 +59,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.addFilterAt(new YzOptAuthenticationRequestFilter(this.authenticationManagerBean(),
+        http.authorizeRequests().anyRequest().authenticated()
+                .and()
+                // 登陆页面自定义
+                .formLogin().loginPage("/userLogin").usernameParameter("uname").passwordParameter("pass").loginProcessingUrl("/login").permitAll();
+
+        // 自定义csrf
+        http.csrf(c -> {
+            c.csrfTokenRepository(new YzCsrfTokenRepository(new HttpSessionCsrfTokenRepository()));
+        });
+
+        http.addFilterAt(new YzOtpAndUsernamePasswordAuthenticationFilter(this.authenticationManagerBean(),
                         this.otpRepository, this.tokenCache),
                 BasicAuthenticationFilter.class);
         http.addFilterAt(new YzTokenAuthenticationFilter(this.authenticationManagerBean()), BasicAuthenticationFilter.class);
-        super.configure(http);
-
         // HttpSession
-        http.sessionManagement().invalidSessionUrl("/invalidSession.htm");
+//        http.sessionManagement().invalidSessionUrl("/invalidSession.htm");
         // sessionId保存在服务器端, 请求时通过JSESSIONID
-        http.logout().deleteCookies("JSESSIONID");
+//        http.logout().deleteCookies("JSESSIONID");
     }
 
     @Override

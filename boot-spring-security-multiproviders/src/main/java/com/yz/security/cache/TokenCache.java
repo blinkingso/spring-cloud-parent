@@ -29,7 +29,7 @@ public class TokenCache {
      * @return token
      */
     public static String createToken() {
-        return UUID.randomUUID().toString();
+        return UUID.randomUUID().toString().replaceAll("-", "");
     }
 
     public Boolean put(String token) {

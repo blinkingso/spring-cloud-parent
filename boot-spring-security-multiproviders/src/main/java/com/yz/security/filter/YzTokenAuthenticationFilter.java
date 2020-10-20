@@ -62,7 +62,6 @@ public class YzTokenAuthenticationFilter extends OncePerRequestFilter {
      */
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        String token = request.getHeader(TokenCache.HEADER_AUTHORIZATION);
-        return StringUtils.isEmpty(token) || token.startsWith("Basic");
+        return request.getServletPath().equals("/login");
     }
 }

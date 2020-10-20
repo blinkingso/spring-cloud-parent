@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -29,13 +28,13 @@ import java.util.Random;
  * @date 2020-10-15
  */
 @Slf4j
-public class YzOptAuthenticationRequestFilter extends OncePerRequestFilter {
+public class YzOtpAndUsernamePasswordAuthenticationFilter extends OncePerRequestFilter {
 
     private final AuthenticationManager authenticationManager;
     private final OtpRepository otpRepository;
     private final TokenCache tokenCache;
 
-    public YzOptAuthenticationRequestFilter(AuthenticationManager authenticationManager, OtpRepository otpRepository, TokenCache tokenCache) {
+    public YzOtpAndUsernamePasswordAuthenticationFilter(AuthenticationManager authenticationManager, OtpRepository otpRepository, TokenCache tokenCache) {
         this.authenticationManager = authenticationManager;
         this.otpRepository = otpRepository;
         this.tokenCache = tokenCache;
@@ -50,7 +49,7 @@ public class YzOptAuthenticationRequestFilter extends OncePerRequestFilter {
      */
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return request.getServletPath().equals("/login");
+        return !request.getServletPath().equals("/login");
     }
 
     @Override
@@ -64,6 +63,11 @@ public class YzOptAuthenticationRequestFilter extends OncePerRequestFilter {
         if (!StringUtils.isEmpty(otp)) {
             // ONE TIME PASSWORD
             authentication = new OtpAuthentication(username, otp);
+        } else {
+            // 账号密码验证
+            authentication = new UsernamePasswordAuthentication(username, password);
+
+            // 生成otp验证码
             String code = String.valueOf(new Random().nextInt(9999) + 1000);
             Otp ot = new Otp();
             ot.setUsername(username);
@@ -75,9 +79,6 @@ public class YzOptAuthenticationRequestFilter extends OncePerRequestFilter {
                 log.error("sql 执行失败: ", e);
                 throw new AuthenticationServiceException("otp保存失败");
             }
-        } else {
-            // 账号密码模式
-            authentication = new UsernamePasswordAuthentication(username, password);
         }
 
         authentication = authenticationManager.authenticate(authentication);
@@ -87,9 +88,5 @@ public class YzOptAuthenticationRequestFilter extends OncePerRequestFilter {
             response.setHeader(TokenCache.HEADER_AUTHORIZATION, token);
             tokenCache.put(token);
         }
-
-        // 保存认证结果到SecurityContext中
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        chain.doFilter(request, response);
     }
 }

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>登陆页面</title>
+    <style>
+        input {
+            height: 1.2em;
+            line-height: 1.6em;
+            font-size: 1em;
+            padding-top: 0.1em;
+            padding-bottom: 0.1em;
+            text-align: left;
+            margin-top: 0.2em;
+            margin-bottom: 0.2em;
+        }
+    </style>
+</head>
+<body>
+<form th:action="@{/login}" method="post">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+    <label for="uname">账号</label><input type="text" name="uname" id="uname"/>
+    <br/>
+    <label for="pass">密码</label><input type="password" name="pass" id="pass"/>
+    <br>
+    <input type="submit" value="提交" style="height: 2em">
+</form>
+</body>
+</html>
