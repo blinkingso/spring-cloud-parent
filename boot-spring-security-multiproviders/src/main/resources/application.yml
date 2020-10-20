@@ -4,10 +4,8 @@ server:
 spring:
   thymeleaf:
     enabled: true
-    cache: false
-    prefix: classpath:/templates/
     suffix: .html
-    mode: HTML
-    encoding: UTF-8
+    prefix: classpath:/html/,classpath:/templates/
     servlet:
       content-type: text/html
+    mode: HTML
