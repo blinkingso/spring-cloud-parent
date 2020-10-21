@@ -1,6 +1,7 @@
 package com.yz.filter;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -18,8 +19,8 @@ public class YzCsrfTokenLoggerFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String csrfToken = request.getHeader("X-CSRF-TOKEN");
-        log.info("csrf token的结果为: " + csrfToken);
+        CsrfToken csrfToken = (CsrfToken) request.getAttribute("_csrf");
+        log.info("csrf token的结果为: " + csrfToken.getToken());
         filterChain.doFilter(request, response);
     }
 }

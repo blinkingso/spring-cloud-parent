@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>index</title>
+    <script>
+        // 模拟cors问题, 通过8080端口的服务访问8081端口
+        let request = new XMLHttpRequest();
+        request.open("POST", "http://localhost:8081/csrf/ignore/123")
+        request.send();
+        console.log("请求了")
+        request.onreadystatechange=function() {
+            if (request.readyState === request.DONE && request.status ===200) {
+                let text = document.getElementById("t_message");
+                text.innerHTML = request.responseText
+            }
+        }
+    </script>
+</head>
+<body>
+<div>
+    <h1>Hello</h1>
+    <div id="t_message" style="color: rebeccapurple"></div>
+</div>
+</body>
+</html>
