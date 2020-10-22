@@ -12,4 +12,6 @@ import java.util.Optional;
 public interface ClientDetailsRepository extends JpaRepository<YzClientDetails, Long> {
 
     Optional<YzClientDetails> findYzClientDetailsByClientId(String clientId);
+
+    void deleteYzClientDetailsByClientId(String clientId);
 }
