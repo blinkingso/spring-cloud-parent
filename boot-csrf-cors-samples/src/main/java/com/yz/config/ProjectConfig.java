@@ -3,12 +3,15 @@ package com.yz.config;
 import com.yz.csrf.YzCsrfRepository;
 import com.yz.filter.YzCsrfTokenLoggerFilter;
 import com.yz.repository.CsrfTokenRepository;
+import com.yz.repository.UserRepository;
+import com.yz.service.impl.YzUserDetailsServiceManager;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,7 +21,6 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -28,7 +30,6 @@ import java.util.stream.Stream;
  * @date 2020-10-20
  */
 @Configuration
-@EnableWebMvc
 public class ProjectConfig extends WebSecurityConfigurerAdapter {
 
     private final CsrfTokenRepository csrfTokenRepository;
@@ -60,6 +61,7 @@ public class ProjectConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .and()
                 .httpBasic();
+
     }
 
     @Bean
@@ -68,14 +70,25 @@ public class ProjectConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
+    @Autowired
+    private UserRepository userRepository;
+
+    @Bean(name = "userDetailsService")
     @Primary
-    public UserDetailsService userDetailsService() {
+    public YzUserDetailsServiceManager userDetailsService() {
+        return new YzUserDetailsServiceManager(this.userRepository, this.passwordEncoder());
+    }
+
+    @Bean("userDetailsService")
+    @Primary
+    @ConditionalOnMissingBean(UserDetailsService.class)
+    public UserDetailsService userDetailsService2() {
         final InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        manager.createUser(User.withUsername("admin").password(passwordEncoder().encode("admin"))
+        manager.createUser(User.withUsername("admin").password(passwordEncoder().encode("123"))
                 .roles("ADMIN").authorities("READ", "WRITE").build());
-        manager.createUser(User.withUsername("guest").password(passwordEncoder().encode("guest"))
+        manager.createUser(User.withUsername("guest").password(passwordEncoder().encode("123"))
                 .roles("GUEST").authorities("READ").build());
+
         return manager;
     }
 
@@ -87,7 +100,6 @@ public class ProjectConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        super.configure(auth);
         auth.userDetailsService(userDetailsService());
     }
 }
