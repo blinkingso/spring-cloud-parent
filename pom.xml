@@ -33,6 +33,7 @@
         <module>boot-spring-security-multiproviders</module>
         <module>boot-csrf-cors-samples</module>
         <module>boot-oauth2-server</module>
+        <module>boot-web-security-parent</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -49,6 +50,7 @@
         <zipkin.version>2.12.8</zipkin.version>
         <nekohtml.version>1.9.22</nekohtml.version>
         <commons-pool2.version>2.6.1</commons-pool2.version>
+        <spring-boot.version>2.2.2.RELEASE</spring-boot.version>
     </properties>
 
     <!-- 模块版本管理 -->
@@ -70,7 +72,7 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
-                <version>2.2.2.RELEASE</version>
+                <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -181,6 +183,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
                 <configuration>
                     <fork>true</fork>
                     <addResources>true</addResources>
