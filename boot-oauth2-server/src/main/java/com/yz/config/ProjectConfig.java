@@ -1,5 +1,6 @@
 package com.yz.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -27,11 +28,11 @@ public class ProjectConfig {
 
     @Bean
     @Primary
-    public UserDetailsService userDetailsService() {
+    public UserDetailsService userDetailsService(@Autowired PasswordEncoder passwordEncoder) {
         final InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        UserDetails admin = User.withUsername("admin").password(passwordEncoder().encode("admin")).authorities("read", "write")
+        UserDetails admin = User.withUsername("admin").password(passwordEncoder.encode("admin")).authorities("read", "write")
                 .roles("ADMIN").build();
-        UserDetails guest = User.withUsername("guest").password(passwordEncoder().encode("guest")).authorities("read")
+        UserDetails guest = User.withUsername("guest").password(passwordEncoder.encode("guest")).authorities("read")
                 .roles("GUEST").build();
         manager.createUser(admin);
         manager.createUser(guest);

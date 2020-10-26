@@ -3,11 +3,8 @@ server:
 spring:
   thymeleaf:
     enabled: true
-  security:
-    user:
-      name: admin
-      password: admin
-      roles: ADMIN,USER
+    prefix: classpath:/templates/
+    suffix: .html
   datasource:
     url: jdbc:mysql://localhost:3306/yz?useSSL=false
     username: root
@@ -16,4 +13,4 @@ spring:
     type: com.zaxxer.hikari.HikariDataSource
 logging:
   level:
-   root: debug
+   root: info

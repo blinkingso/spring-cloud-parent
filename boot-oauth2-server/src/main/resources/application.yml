@@ -1,9 +1,9 @@
 server:
   port: 8080
-  ssl:
-    key-store-type: PKCS12
-    key-store-password: 123456
-    key-store: cert.p12
+#  ssl:
+#    key-store-type: PKCS12
+#    key-store-password: 123456
+#    key-store: cert.p12
 
 spring:
   datasource:

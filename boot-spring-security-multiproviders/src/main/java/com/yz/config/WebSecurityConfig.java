@@ -18,6 +18,7 @@ import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,11 +30,12 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
  * @author andrew
  * @date 2020-10-15
  */
-@Configuration
-@EnableWebMvc
-@EnableGlobalMethodSecurity(jsr250Enabled = true, prePostEnabled = true, securedEnabled = true)
-@Import({ProjectConfig.class})
-@ConditionalOnBean(TokenCache.class)
+//@Configuration
+//@EnableWebMvc
+//@EnableGlobalMethodSecurity(jsr250Enabled = true, prePostEnabled = true, securedEnabled = true)
+//@Import({ProjectConfig.class})
+//@ConditionalOnBean(TokenCache.class)
+//@EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final PasswordEncoder passwordEncoder;
@@ -59,20 +61,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().anyRequest().authenticated()
+        http
+                .authorizeRequests().anyRequest().authenticated()
                 .and()
                 // 登陆页面自定义
-                .formLogin().loginPage("/userLogin").usernameParameter("uname").passwordParameter("pass").loginProcessingUrl("/login").permitAll();
+//                .formLogin().loginPage("/userLogin").usernameParameter("uname").passwordParameter("pass").loginProcessingUrl("/login").permitAll()
+//                .and()
+                .formLogin().and().httpBasic()
+                .and().csrf().disable();
+//                .and()
+//                .csrf(c -> {
+//                    c.csrfTokenRepository(new YzCsrfTokenRepository(new HttpSessionCsrfTokenRepository()));
+//                    c.ignoringAntMatchers("/login", "/logout");
+//                });
 
-        // 自定义csrf
-        http.csrf(c -> {
-            c.csrfTokenRepository(new YzCsrfTokenRepository(new HttpSessionCsrfTokenRepository()));
-        });
-
-        http.addFilterAt(new YzOtpAndUsernamePasswordAuthenticationFilter(this.authenticationManagerBean(),
-                        this.otpRepository, this.tokenCache),
-                BasicAuthenticationFilter.class);
-        http.addFilterAt(new YzTokenAuthenticationFilter(this.authenticationManagerBean()), BasicAuthenticationFilter.class);
+//        http.addFilterAt(new YzOtpAndUsernamePasswordAuthenticationFilter(this.authenticationManagerBean(),
+//                        this.otpRepository, this.tokenCache),
+//                BasicAuthenticationFilter.class);
+//        http.addFilterAt(new YzTokenAuthenticationFilter(this.authenticationManagerBean()), BasicAuthenticationFilter.class);
         // HttpSession
 //        http.sessionManagement().invalidSessionUrl("/invalidSession.htm");
         // sessionId保存在服务器端, 请求时通过JSESSIONID

@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,6 +22,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -30,6 +32,8 @@ import java.util.stream.Stream;
  * @date 2020-10-20
  */
 @Configuration
+@EnableWebMvc
+@EnableWebSecurity
 public class ProjectConfig extends WebSecurityConfigurerAdapter {
 
     private final CsrfTokenRepository csrfTokenRepository;
@@ -45,7 +49,7 @@ public class ProjectConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests().anyRequest().authenticated()
                 .and().csrf(c -> {
-            c.ignoringAntMatchers("/csrf/**", "/login/**");
+            c.ignoringAntMatchers("/csrf/**", "/login/**", "/index");
             c.csrfTokenRepository(new YzCsrfRepository(csrfTokenRepository));
         }).addFilterAfter(new YzCsrfTokenLoggerFilter(), CsrfFilter.class)
                 .cors(c -> {
@@ -100,6 +104,7 @@ public class ProjectConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        super.configure(auth);
         auth.userDetailsService(userDetailsService());
     }
 }

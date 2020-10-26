@@ -5,7 +5,11 @@ spring:
   thymeleaf:
     enabled: true
     suffix: .html
-    prefix: classpath:/html/,classpath:/templates/
+    prefix: classpath:/templates/
     servlet:
       content-type: text/html
     mode: HTML
+
+logging:
+  level:
+    root: debug
