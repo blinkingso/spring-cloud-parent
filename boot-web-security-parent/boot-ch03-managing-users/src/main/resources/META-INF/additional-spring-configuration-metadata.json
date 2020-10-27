@@ -1,0 +1,26 @@
+{
+  "properties": [
+    {
+      "name": "user.details.service.type",
+      "type": "java.lang.String",
+      "defaultValue": "memory",
+      "description": "UserDetailsService实例定义类型."
+    }
+  ],
+  "hints": [
+    {
+      "name": "user.details.service.type",
+      "values": [
+        {
+          "value": "memory"
+        },
+        {
+          "value": "jdbc"
+        },
+        {
+          "value": "custom"
+        }
+      ]
+    }
+  ]
+}

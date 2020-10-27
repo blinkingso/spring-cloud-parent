@@ -18,6 +18,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .formLogin().loginPage("/customLogin").usernameParameter("user").passwordParameter("pwd").loginProcessingUrl("/login").permitAll()
                 .and()
                 .httpBasic();
+        // 先禁用, 后面再开启
         http.csrf().disable();
     }
 }
