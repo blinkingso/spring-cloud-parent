@@ -1,0 +1,24 @@
+server:
+  port: 8080
+
+spring:
+  thymeleaf:
+    enabled: true
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false
+    mode: HTML
+  datasource:
+    url: jdbc:mysql://localhost:3306/yz?useSSL=false
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+
+user:
+  details:
+    service:
+      type: custom
+  password:
+    delegating: true
+    default: false

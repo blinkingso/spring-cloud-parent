@@ -1,0 +1,38 @@
+{
+  "properties": [
+    {
+      "name": "user.details.service.type",
+      "type": "java.lang.String",
+      "defaultValue": "memory",
+      "description": "UserDetailsService实例定义类型."
+    },
+    {
+      "name": "user.password.delegating",
+      "type": "java.lang.Boolean",
+      "defaultValue": false,
+      "description": "Using customized DelegatingPasswordEncoder Instance, Default is false."
+    },
+    {
+      "name": "user.password.default",
+      "type": "java.lang.Boolean",
+      "defaultValue": false,
+      "description": "Using customized DelegatingPasswordEncoder Default Instance, Default is false."
+    }
+  ],
+  "hints": [
+    {
+      "name": "user.details.service.type",
+      "values": [
+        {
+          "value": "memory"
+        },
+        {
+          "value": "jdbc"
+        },
+        {
+          "value": "custom"
+        }
+      ]
+    }
+  ]
+}

@@ -11,6 +11,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>boot-ch03-managing-users</module>
+        <module>boot-ch04-password-encoding</module>
     </modules>
 
     <artifactId>boot-web-security-parent</artifactId>
