@@ -13,6 +13,7 @@
         <module>boot-ch03-managing-users</module>
         <module>boot-ch04-password-encoding</module>
         <module>boot-ch05-authentication</module>
+        <module>boot-ch06-hands-on-web-app</module>
     </modules>
 
     <artifactId>boot-web-security-parent</artifactId>
