@@ -7,10 +7,10 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.io.Serializable;
 
+@Entity(name = "authority")
 @Data
 @ToString
 @EqualsAndHashCode
-@Entity(name = "authority")
 public class Authority implements Serializable {
 
     @Id

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>主页面</title>
+</head>
+<body>
+<h2 th:text="'Hello, ' + ${username} +'!'"></h2>
+<p><a th:href="@{/logout}">退出</a></p>
+<h2>产品列表:</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Price</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${products.isEmpty()}">
+        <td colspan="2">No products Available</td>
+    </tr>
+    <tr th:each="product: ${products}">
+        <td><span th:text="${product.name}"> Name </span></td>
+        <td><span th:text="${product.price}"> Price </span></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

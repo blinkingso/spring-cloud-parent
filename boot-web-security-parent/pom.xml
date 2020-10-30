@@ -9,11 +9,16 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
+
+    <properties>
+        <java.version>11</java.version>
+    </properties>
     <modules>
         <module>boot-ch03-managing-users</module>
         <module>boot-ch04-password-encoding</module>
         <module>boot-ch05-authentication</module>
         <module>boot-ch06-hands-on-web-app</module>
+        <module>boot-ch07-authorities-roles</module>
     </modules>
 
     <artifactId>boot-web-security-parent</artifactId>
@@ -46,6 +51,8 @@
     </dependencies>
 
     <build>
+        <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
+        <testSourceDirectory>${project.basedir}/src/test/java</testSourceDirectory>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
