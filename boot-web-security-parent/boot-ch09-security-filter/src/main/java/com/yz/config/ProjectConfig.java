@@ -2,6 +2,7 @@ package com.yz.config;
 
 import com.yz.filters.StaticKeyAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,15 +13,13 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
  * @author andrew
  * @date 2020-10-30
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
+@ConditionalOnProperty(value = "security.enabled", havingValue = "true")
 public class ProjectConfig extends WebSecurityConfigurerAdapter {
-
-    @Autowired
-    private StaticKeyAuthenticationFilter staticKeyAuthenticationFilter;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.addFilterAt(staticKeyAuthenticationFilter, BasicAuthenticationFilter.class);
+        http.addFilterAt(new StaticKeyAuthenticationFilter(), BasicAuthenticationFilter.class);
         http.httpBasic();
         // READ OR WRITE AUTHORITY
         // AUTHORITIES WAYS : hasAuthority(), hasAnyAuthority(), access() implementing with previous methods.
@@ -51,7 +50,7 @@ public class ProjectConfig extends WebSecurityConfigurerAdapter {
                 .regexMatchers(".*/(us|uk|ca)+/(en|fr).*").authenticated()
 
 //                .anyRequest().hasAnyRole("ADMIN", "GUEST");
-        .anyRequest().hasRole("ADMIN");
+                .anyRequest().hasRole("ADMIN");
 
         http.csrf().disable();
     }

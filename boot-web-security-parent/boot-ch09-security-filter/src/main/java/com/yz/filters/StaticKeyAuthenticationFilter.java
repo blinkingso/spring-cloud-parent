@@ -1,10 +1,9 @@
 package com.yz.filters;
 
-import com.yz.filters.validation.DefaultValidationHeadersStrategy;
-import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
-import javax.servlet.*;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -15,11 +14,9 @@ import java.util.List;
  * @author andrew
  * @date 2020-11-01
  */
-@Component
 public class StaticKeyAuthenticationFilter extends AbstractRequestHeaderAuthenticationFilter {
 
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public StaticKeyAuthenticationFilter() {
         var cache = new HashMap<String, String>();
         cache.put("Request-Id", "rid");
         cache.put("Access-Key", "ak");

@@ -20,6 +20,7 @@
         <module>boot-ch06-hands-on-web-app</module>
         <module>boot-ch07-authorities-roles</module>
         <module>boot-ch09-security-filter</module>
+        <module>boot-ch10-cors-csrf</module>
     </modules>
 
     <artifactId>boot-web-security-parent</artifactId>
