@@ -1,9 +1,12 @@
 package com.yz.config;
 
+import com.yz.filters.StaticKeyAuthenticationFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 /**
  * @author andrew
@@ -12,8 +15,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 public class ProjectConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private StaticKeyAuthenticationFilter staticKeyAuthenticationFilter;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.addFilterAt(staticKeyAuthenticationFilter, BasicAuthenticationFilter.class);
         http.httpBasic();
         // READ OR WRITE AUTHORITY
         // AUTHORITIES WAYS : hasAuthority(), hasAnyAuthority(), access() implementing with previous methods.
