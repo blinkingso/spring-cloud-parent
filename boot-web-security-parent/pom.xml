@@ -21,6 +21,7 @@
         <module>boot-ch07-authorities-roles</module>
         <module>boot-ch09-security-filter</module>
         <module>boot-ch10-cors-csrf</module>
+        <module>boot-ch11-hands-on-samples</module>
     </modules>
 
     <artifactId>boot-web-security-parent</artifactId>
