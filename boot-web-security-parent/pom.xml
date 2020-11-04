@@ -22,6 +22,7 @@
         <module>boot-ch09-security-filter</module>
         <module>boot-ch10-cors-csrf</module>
         <module>boot-ch11-hands-on-samples</module>
+        <module>boot-ch11-business-logic-server</module>
     </modules>
 
     <artifactId>boot-web-security-parent</artifactId>

@@ -27,11 +27,11 @@ public class GenerateCodeUtil {
             return generateCode(6);
         } catch (Exception e) {
             log.error("error : ", e);
-            return "";
+            throw new RuntimeException("Problem when generating the random code .");
         }
     }
 
-    public static String generateCode(int length) throws Exception {
+    public static String generateCode(int length) throws RuntimeException {
         if (length < 4) {
             throw new IllegalArgumentException("length must grater than 4 ...");
         }

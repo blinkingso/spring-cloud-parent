@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * @author andrew
@@ -51,6 +52,22 @@ public class UserService {
         }
         log.info("user " + user.getUsername() + " is not present");
         return false;
+    }
+
+    /**
+     * check otp code to validate
+     * @param otpToValidate otp entity
+     * @return true if exists and code matches
+     */
+    public boolean check(Otp otpToValidate) {
+        final var result = new AtomicBoolean(false);
+        this.otpRepository.findOtpByUsername(otpToValidate.getUsername())
+                .ifPresent(o -> {
+                    if (o.getCode().equals(otpToValidate.getCode())) {
+                        result.set(true);
+                    }
+                });
+        return result.get();
     }
 
     private void renewOtp(User user) {
