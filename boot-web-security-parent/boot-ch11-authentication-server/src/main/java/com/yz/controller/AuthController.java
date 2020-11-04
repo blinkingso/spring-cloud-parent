@@ -33,10 +33,7 @@ public class AuthController {
     }
 
     @PostMapping("/otp/check")
-    public String check(@RequestBody Otp otp) {
-        if (!this.userService.check(otp)) {
-            return "forbidden";
-        }
-        return "ok";
+    public boolean check(@RequestBody Otp otp) {
+        return this.userService.check(otp);
     }
 }

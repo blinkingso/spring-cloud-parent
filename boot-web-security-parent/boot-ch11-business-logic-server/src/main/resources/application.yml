@@ -1,0 +1,8 @@
+server:
+  port: 8081
+auth:
+  server:
+    base:
+      url: http://localhost:8080
+sign:
+  key: kZdmTKrJcbsjf/ecuH5dLv81oBwtnLfO6/b7qdPTlMc=

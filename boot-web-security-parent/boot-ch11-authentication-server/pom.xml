@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>boot-ch11-hands-on-samples</artifactId>
+    <artifactId>boot-ch11-authentication-server</artifactId>
 
     <dependencies>
         <dependency>
