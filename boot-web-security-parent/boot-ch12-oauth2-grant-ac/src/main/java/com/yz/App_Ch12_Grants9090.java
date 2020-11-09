@@ -27,9 +27,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @date 2020-11-05
  */
 @SpringBootApplication
-public class App_Ch12_Grants {
+public class App_Ch12_Grants9090 {
 
     public static void main(String[] args) {
-        SpringApplication.run(App_Ch12_Grants.class, args);
+        SpringApplication.run(App_Ch12_Grants9090.class, args);
     }
 }
