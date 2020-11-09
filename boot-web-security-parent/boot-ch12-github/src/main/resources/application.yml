@@ -1,0 +1,17 @@
+server:
+  port: 8080
+github:
+  registration-id: github
+  client-id: 7be525a88daa3a29233f
+  client-secret: 03c474f10f689f503d7700a2439c09c9818af03e
+  scope:
+    - read
+    - write
+    - image
+  authorization-uri: https://github.com/login/oauth/authorize
+  token-uri: https://github.com/login/oauth/access_token
+  client-name: read:user
+  authorization-grant-type: authorization_code
+  user-name-attribute-name: id
+  user-info-uri: https://api.github.com/user
+  redirect-uri-template: "{baseUrl}/{action}/oauth2/code/{registrationId}"
