@@ -34,6 +34,7 @@
         <module>boot-csrf-cors-samples</module>
         <module>boot-oauth2-server</module>
         <module>boot-web-security-parent</module>
+        <module>java-8-in-action</module>
     </modules>
     <packaging>pom</packaging>
 
