@@ -25,6 +25,7 @@
         <module>boot-ch11-business-logic-server</module>
         <module>boot-ch12-oauth2-grant-ac</module>
         <module>boot-ch12-github</module>
+        <module>boot-ch14-resource-server</module>
     </modules>
 
     <artifactId>boot-web-security-parent</artifactId>
