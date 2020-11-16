@@ -73,12 +73,12 @@ public class DefaultClientDetails implements ClientDetails, Serializable {
 
     @Override
     public Integer getAccessTokenValiditySeconds() {
-        return 60;
+        return 24*60*60;
     }
 
     @Override
     public Integer getRefreshTokenValiditySeconds() {
-        return 120;
+        return 24*60*60;
     }
 
     @Override

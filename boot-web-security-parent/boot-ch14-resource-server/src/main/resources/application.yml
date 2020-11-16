@@ -1,2 +1,19 @@
 server:
   port: 8080
+
+# 使用DefaultTokenServices时注释此代码块
+#security:
+#  oauth2:
+#    client:
+#      client-id: db_client_authorization_code
+#      client-secret: 123456
+#    resource:
+#      token-info-uri: http://localhost:9090/oauth/check_token
+spring:
+  datasource:
+    name: yz-hy
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/spring?useSSL=false
+    username: root
+    password: 123456

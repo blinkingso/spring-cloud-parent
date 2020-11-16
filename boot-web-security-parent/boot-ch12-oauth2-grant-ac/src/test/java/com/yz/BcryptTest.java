@@ -13,4 +13,9 @@ public class BcryptTest {
     public void printBcrypt() {
         System.out.println(new BCryptPasswordEncoder().encode("123456"));
     }
+
+    @Test
+    public void echoHome() {
+        System.out.println(System.getProperty("user.home"));
+    }
 }

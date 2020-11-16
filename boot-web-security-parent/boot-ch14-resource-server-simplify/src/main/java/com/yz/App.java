@@ -2,12 +2,15 @@ package com.yz;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
+/**
+ * @author andrew
+ * @date 2020-11-16
+ */
 @SpringBootApplication
-public class AppCh14ResourceServer {
+public class App {
 
     public static void main(String[] args) {
-        SpringApplication.run(AppCh14ResourceServer.class, args);
+        SpringApplication.run(App.class, args);
     }
 }

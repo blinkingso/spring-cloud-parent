@@ -8,16 +8,21 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
+    <description>spring security oauth2 simplify version</description>
 
-    <artifactId>boot-ch12-github</artifactId>
-
-    <description>spring security in action resource server via github</description>
+    <artifactId>boot-ch14-resource-server-simplify</artifactId>
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-oauth2-client</artifactId>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-oauth2-resource-server</artifactId>
+            <version>5.2.1.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>com.nimbusds</groupId>
+            <artifactId>oauth2-oidc-sdk</artifactId>
+            <version>8.4</version>
+            <scope>runtime</scope>
         </dependency>
     </dependencies>
-
 </project>
