@@ -28,6 +28,7 @@
         <module>boot-ch14-resource-server</module>
         <module>boot-ch14-resource-server-simplify</module>
         <module>boot-ch15-authorization-server-jwt</module>
+        <module>boot-ch15-resource-server-jwt</module>
     </modules>
 
     <artifactId>boot-web-security-parent</artifactId>

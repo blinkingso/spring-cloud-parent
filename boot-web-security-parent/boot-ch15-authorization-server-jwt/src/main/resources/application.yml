@@ -2,4 +2,9 @@ server:
   port: 9090
 
 jwt:
-  key: MjWP5L7CiD
+  signing-key: MjWP5L7CiD
+  is-symmetric: false
+  alias: yzkey
+  key-pass: Abc12345
+  store-pass: Abc12345
+  private-key: authorization-server.jks

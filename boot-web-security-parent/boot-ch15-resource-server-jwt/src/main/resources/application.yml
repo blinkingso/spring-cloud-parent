@@ -1,0 +1,28 @@
+server:
+  port: 8080
+
+security:
+  oauth2:
+    client:
+      client-id: jwt_client
+      client-secret: 12345
+    resource:
+      token-info-uri: http://localhost:9090/oauth/check_token
+      token-type: Bearer
+
+jwt:
+  type: asymmetric
+  key: MjWP5L7CiD
+  public-key: -----BEGIN PUBLIC KEY-----
+    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA7CpH+iCJ/ndlUL9kHB9n
+    wQl2GWQBCpiTMlXG8FVyqyvfUwVf8ijFLnHmzO/BfRUlgosa9eU1gyXQkvlAQUpc
+    5JgrfrIlzEeI9PBABa9bspr7GtnejJH5dXzOOWJl6I70Ql7OoBVXsNGMi0TmhXmT
+    Kpq4mxnPIdT5bFpbWM2wR7u5uHEGS6g5W0z25QNB+ULlf99CB1pcsGX9J/cS5Ilv
+    wVRxkW5sO8nk/NBc+XIQ/czS7Fyxa9PZ6nRHy8xc3Gqu7TnajCig5tp8dgHyDzg2
+    HLs9fMNJeJ4SDo2Oyk4XDgjZ+cCxvHxk3Yy0W50SIZnWJJ0WTfxvy6/x4pc5R0Xg
+    1QIDAQAB
+    -----END PUBLIC KEY-----
+spring:
+  resource:
+    server:
+      origin: false
